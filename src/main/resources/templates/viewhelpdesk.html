@@ -1,0 +1,324 @@
+
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.122.0">
+    <title>Super Air Helpdesk</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/navbar-static/">
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- Favicons -->
+    <!--
+    <link rel="apple-touch-icon" href="/docs/5.3/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" href="/docs/5.3/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="/docs/5.3/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="manifest" href="/docs/5.3/assets/img/favicons/manifest.json">
+    <link rel="mask-icon" href="/docs/5.3/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+    <link rel="icon" href="/docs/5.3/assets/img/favicons/favicon.ico">
+    <meta name="theme-color" content="#712cf9">
+    -->
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+        .b-example-divider {
+            width: 100%;
+            height: 3rem;
+            background-color: rgba(0, 0, 0, .1);
+            border: solid rgba(0, 0, 0, .15);
+            border-width: 1px 0;
+            box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+        }
+
+        .b-example-vr {
+            flex-shrink: 0;
+            width: 1.5rem;
+            height: 100vh;
+        }
+
+        .bi {
+            vertical-align: -.125em;
+            fill: currentColor;
+        }
+
+        .nav-scroller {
+            position: relative;
+            z-index: 2;
+            height: 2.75rem;
+            overflow-y: hidden;
+        }
+
+        .nav-scroller .nav {
+            display: flex;
+            flex-wrap: nowrap;
+            padding-bottom: 1rem;
+            margin-top: -1px;
+            overflow-x: auto;
+            text-align: center;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .btn-bd-primary {
+            --bd-violet-bg: #712cf9;
+            --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+
+            --bs-btn-font-weight: 600;
+            --bs-btn-color: var(--bs-white);
+            --bs-btn-bg: var(--bd-violet-bg);
+            --bs-btn-border-color: var(--bd-violet-bg);
+            --bs-btn-hover-color: var(--bs-white);
+            --bs-btn-hover-bg: #6528e0;
+            --bs-btn-hover-border-color: #6528e0;
+            --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+            --bs-btn-active-color: var(--bs-btn-hover-color);
+            --bs-btn-active-bg: #5a23c8;
+            --bs-btn-active-border-color: #5a23c8;
+        }
+
+        .bd-mode-toggle {
+            z-index: 1500;
+        }
+
+        .bd-mode-toggle .dropdown-menu .active .bi {
+            display: block !important;
+        }
+    </style>
+
+
+    <!-- Custom styles for this template -->
+    <!--
+    <link href="navbar-static.css" rel="stylesheet">
+    -->
+</head>
+<body>
+
+
+
+<div th:replace="~{navbar :: #navbar}"></div>
+
+
+<main class="container" x-data="helpDeskApp()">
+    <div class="row">
+
+        <div class="col-md-12"><h1>Super Air Customer Service</h1></div>
+        <div class="col-md-12">
+            <small class="text-success"><i></i>Hi, I am SuperZ. How I can help you today?</i></small>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-6 col-lg-6">
+
+            <div class="input-group mb-3">
+                <input type="hidden" x-model="chatId" th:value="${chatId}">
+                <input type="text" x-model="message" class="form-control" placeholder="Type your question here" aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-outline-primary" type="button" id="button-addon2" @click="getAnswer">Go!</button>
+            </div>
+
+            <!--
+            <p x-text="answer" class=" pt-2 "></p>
+            -->
+
+
+            <div class="overflow-scroll p-3 bg-light"  style="width: 100%; height: 450px;">
+
+                <template x-for="msg in $store.messageStore.messages">
+                    <div>
+                        <span x-text="msg?.sender" class="text-primary fw-bold"></span><span>:</span> <span  class="fs-6" x-text="msg?.content"></span>
+                    </div>
+                    <hr/>
+                </template>
+
+            </div>
+
+
+
+        </div>
+
+
+        <div class="col-md-6 col-lg-6 border-start border-success border-2">
+            <h3>Bookings</h3>
+
+
+            <div x-cloak  x-init="getBookings()">
+
+
+                <table class="table table-sm">
+                    <tr>
+                        <th>Booking #</th>
+                        <th>Name</th>
+                        <th>Last Name</th>
+                        <th>Status</th>
+                        <th>From </th>
+                        <th>To</th>
+                        <th>Date</th>
+                        <th>Class</th>
+                    </tr>
+                    <template x-for="b in bookings" :key="b.bookingNumber">
+                        <tr>
+
+                            <td x-text="b.bookingNumber" class="fs-6"></td>
+                            <td x-text="b.firstName" class="fs-6"></td>
+                            <td x-text="b.lastName" class="fs-6"></td>
+                            <td class="fs-6">
+                                <template x-if="b.bookingStatus == 'CONFIRMED'">
+                                    <span x-text="b.bookingStatus" class="text-success fw-bold"></span>
+                                </template>
+                                <template x-if="b.bookingStatus == 'COMPLETED'">
+                                    <span x-text="b.bookingStatus" class="fw-bold"></span>
+                                </template>
+                                <template x-if="b.bookingStatus == 'CANCELLED'">
+                                    <span x-text="b.bookingStatus" class="text-danger fw-bold"></span>
+                                </template>
+                            </td>
+
+                            <td x-text="b.from" class="fs-6"></td>
+                            <td x-text="b.to" class="fs-6"></td>
+                            <td x-text="b.date" class="fs-6"></td>
+                            <td x-text="b.bookingClass" class="fs-6"></td>
+                        </tr>
+                    </template>
+                </table>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+
+
+<script src="//unpkg.com/alpinejs" defer></script>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.store('messageStore', {
+            messages: [],
+
+            addMessage(sender, message) {
+
+                console.log("@@ message - {}", message)
+
+                const id = this.messages.length;
+                this.messages = [
+                    {
+                        id,
+                        sender: sender,
+                        content: message
+                    },
+                    ...this.messages
+                ]
+
+                console.log("@@ messages - {}", this.messages)
+            },
+        })
+    })
+</script>
+
+<script>
+
+    function appendMessage(sender, message) {
+
+
+        Alpine.store('messageStore').addMessage(sender, message)
+    }
+
+    const helpDeskApp = () => ({
+        message: "",
+        chatId: Math.random(),
+        answer: "",
+        bookings : [],
+        showBookingSpinner: true,
+
+        getAnswer(event) {
+            // suppress the submit so the the page does not refersh
+            event.preventDefault();
+
+            console.log('message : ', this.message);
+
+            appendMessage("you",this.message);
+
+
+            fetch('http://localhost:8080/v2/api/helpdesk?message='+this.message+"&chatId="+this.chatId)
+                .then((response) => response.text())
+                .then((data) => {
+                    // if the value is not null
+                    if (data) {
+                        console.log("Data - ", data);
+                        appendMessage("superz",data);
+                        this.message = '';
+                        this.getBookings();
+                    }
+                    else {
+                        console.log("No data");
+                    }
+
+                    this.answer = data;
+                });
+
+
+        },
+
+        getBookings() {
+
+            fetch('http://localhost:8080/v1/api/bookings')
+                .then((response) => response.json())
+                .then((data) => {
+                    // if the value is not null
+                    if (data) {
+                        console.log("Data - ", data);
+                    }
+                    else {
+                        console.log("No data");
+                    }
+                    showBookingSpinner = false;
+                    this.bookings = data;
+                });
+
+
+
+        }
+    });
+
+
+</script>
+
+
+</body>
+</html>

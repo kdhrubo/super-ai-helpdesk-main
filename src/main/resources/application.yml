@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: super-ai-helpdesk
+
+
+  ai:
+    openai:
+      api-key: ${SPRINGAI_OPENAI_KEY}
+      chat:
+        options:
+          model: gpt-4o
+
+    vectorstore:
+      pgvector:
+        initialize-schema: true
+        index-type: HNSW
+        distance-type: COSINE_DISTANCE
+        dimension: 1536
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password:
+  sql:
+    init:
+      mode: always
+
+
+
+logging:
+  level:
+    org.springframework.web: INFO
+    org.springframework.jdbc: INFO
+
