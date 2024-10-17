@@ -73,4 +73,29 @@ public class MarketingController {
 
         return "calendar :: #calendar";
     }
+
+    @GetMapping("/questions")
+    public String viewQuestions(Model model) {
+        return "questions";
+    }
+
+    @PostMapping("/questions")
+    public String generateQuestions(
+            GenerateQuestionRequest generateQuestionRequest,
+            Model model) {
+
+        log.info("Generating questions - {}", generateQuestionRequest);
+
+        String chatId = UUID.randomUUID().toString();
+
+        model.addAttribute("chatId", chatId);
+
+        List<String> questions = marketingAssistant.getQuestions(chatId, generateQuestionRequest);
+
+        log.info("Generated questions - {}", questions);
+
+        model.addAttribute("questions", questions);
+
+        return "questionlist :: #questionlist";
+    }
 }

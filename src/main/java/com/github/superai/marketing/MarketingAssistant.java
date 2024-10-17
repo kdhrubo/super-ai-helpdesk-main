@@ -40,6 +40,9 @@ public class MarketingAssistant {
 	@Value("classpath:/prompts/calendar.st")
 	private Resource calendarPrompt;
 
+	@Value("classpath:/prompts/outline-qa.st")
+	private Resource outlineQaPrompt;
+
 	public MarketingAssistant(ChatClient.Builder modelBuilder, ChatMemory chatMemory) {
 
 		// @formatter:off
@@ -52,7 +55,29 @@ public class MarketingAssistant {
 		// @formatter:on
 	}
 
+	public List<String> getQuestions(String chatId, GenerateQuestionRequest generateQuestionRequest) {
+		log.info("Calling v2 service");
 
+		ListOutputConverter converter = new ListOutputConverter(new DefaultConversionService());
+		String format = converter.getFormat();
+
+
+		PromptTemplate pt = new PromptTemplate(outlineQaPrompt);
+		Prompt renderedPrompt = pt.create(
+				Map.of("title", generateQuestionRequest.title()));
+
+		String template =
+				renderedPrompt.getContents();
+
+		log.info("Template - {}", template);
+
+
+		String content =
+				this.chatClient.prompt(renderedPrompt)
+						.call().chatResponse().getResult().getOutput().getContent();
+
+		return converter.convert(content);
+	}
 
 	public List<ArticleCalendarEntry> getCalendar(String chatId, GenerateCalendarRequest generateCalendarRequest) {
 		log.info("Calling calendar service");

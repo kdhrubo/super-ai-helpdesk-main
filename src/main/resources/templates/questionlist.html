@@ -1,0 +1,38 @@
+
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+<head>
+
+</head>
+<body>
+
+
+<div class="card"  id="questionlist">
+
+    <div class="class-header">Step 2 : Respond to Questions </div>
+
+    <div class="card-body">
+        <form th:action="@{/marketing/outline}"  method="post"
+              hx-post="/marketing/outline"
+              hx-target="#stepHolder" hx-swap="innerHTML" >
+
+            <div class="mb-3">
+                <label for="preferences" class="form-label">Questions </label>
+
+                <textarea class="form-control" id="preferences" name="preferences"  rows="15" th:text="${questions}"></textarea>
+
+                <div id="titleHelp" class="form-text">Please answer the questions in this list to generate an outline.</div>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+</body>
+</html>
