@@ -1,0 +1,32 @@
+
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+<head>
+
+</head>
+<body>
+
+<div id="ideas" >
+
+    <h3>Article Ideas</h3>
+    <table class="table table-sm" >
+        <thead>
+
+        </thead>
+        <tbody>
+            <tr th:each="s, stat : ${ideas}">
+
+                <td th:text="${s}">Mark</td>
+
+            </tr>
+
+        </tbody>
+    </table>
+
+</div>
+
+
+
+
+</body>
+</html>

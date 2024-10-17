@@ -1,0 +1,33 @@
+
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+<head>
+
+</head>
+<body>
+
+<div id="calendar" >
+
+    <h3>Article Calendar</h3>
+    <table class="table table-sm" >
+        <thead>
+
+        </thead>
+        <tbody>
+            <tr th:each="ce, stat : ${calendarEntries}">
+
+                <td class="text-center fw-bold"
+                    th:text="${#dates.format(ce.date, 'dd/MMM/yyyy')}"></td>
+                <td th:text="${ce.article}">Mark</td>
+            </tr>
+
+        </tbody>
+    </table>
+
+</div>
+
+
+
+
+</body>
+</html>
